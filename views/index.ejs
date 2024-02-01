@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+</head>
+<body>
+    <h2>4chan scraper</h2>
+    <form id="myForm">
+        <label for="dataInput">URL:</label>
+        <input type="text" id="dataInput" name="dataInput">
+        <label for="dirInput">Directory path:</label>
+        <input type="text" id="dirInput" name="dirInput">     
+     <button type="submit">Submit</button>
+
+</body>
+<script>
+
+    document.getElementById('myForm').addEventListener('submit', async function(event) {
+        event.preventDefault();
+        
+        const formData = new FormData(this);
+        const data = Object.fromEntries(formData.entries());
+        
+        try {
+            const response = await fetch('/getData', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+
+            console.log(data)
+            
+            if (response.ok) {
+                console.log('Data submitted successfully!');
+                console.log(data)
+                // Handle success
+            } else {
+                console.error('Failed to submit data');
+                // Handle error
+            }
+        } catch (error) {
+            console.error('Error submitting data:', error);
+            // Handle error
+        }
+    });
+</script>
+</html>
