@@ -46,7 +46,20 @@ const server = http.createServer((req, res) => {
         
         const pathExists = fs.existsSync(path);
 
-        if (!pathExists) fs.mkdirSync(path);
+
+        if (!pathExists){
+         try{
+          fs.mkdirSync(path)
+         }
+         catch(err){
+
+          res.writeHead(404, { 'Content-Type': 'application/json' });
+          res.write('error at directory,check path');
+          res.end();    
+         }
+        }
+
+
 
         async function fetchData() {
           const response = await axios.get(url);
@@ -69,15 +82,17 @@ const server = http.createServer((req, res) => {
         extractImages()
           .then((imageUrls) => {
             imageUrls.forEach((element) => {
-              download(element, path);
-            });
+              download(element, path).then(()=>{
+                res.end(JSON.stringify())
+              })
+              
+            })
           })
           .catch((error) => {
-            res.writeHead(400).write(error)
-            res.end()
+            console.log(error)
           });
 
-        const download = (imageUrl, destinationPath) => {
+        const download = async (imageUrl, destinationPath) => {
           https
             .get(imageUrl, (response) => {
               const contentType = response.headers["content-type"];
@@ -97,15 +112,13 @@ const server = http.createServer((req, res) => {
               }
             })
             .on("error", (error) => {
-              res.writeHead(400).write(error)
-              res.end()
+              ("Error downloading image:", error);
             });
         };
       });
 
 
-      res.end(); // Complete the response
-
+ 
       break; // Don't forget to break out of the switch statement
     }
   }

@@ -110,7 +110,7 @@
         
 
         try {
-            status.innerHTML = "downloading.."
+            
 
             const response = await fetch('/getData', {
                 method: 'POST',
@@ -119,7 +119,7 @@
                 },
                 body: JSON.stringify(data)
             });
-            
+            status.innerHTML = "downloading.."
             if (response.ok) {
 
                 console.log('Data submitted successfully!');
@@ -127,11 +127,14 @@
                 status.style = {color:"green"}
                 // Handle success
             } else {
-                console.error('Failed to submit data');
+                if(response.status === 404){
+                    status.innerHTML = 'Wrong path,make sure that the directory is correct or not nested,check the link above.'
+
+                }
+
                 // Handle error
             }
         } catch (error) {
-            console.error('Error submitting data:', error);
             status.innerHTML = error
 
             // Handle error
