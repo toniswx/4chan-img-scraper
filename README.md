@@ -5,60 +5,72 @@
 [![Dependencies](https://img.shields.io/badge/Dependencies-axios%20%7C%20cheerio-blue)](https://www.npmjs.com/package/axios)
 
 
+# 4chan scraper 
 
 
-This Node.js script scrapes images/gif/webm/video from a specified 4chan thread and downloads them into a designated folder.
-Requirements
 
 
-   * Node.js installed on your machine
 
+Welcome to our project! This Node.js server allows users to fetch HTML content from a specified URL, extract image URLs from the fetched HTML, and download the images to a specified directory.
 
-## Instalação
+## Getting Started
 
-Installation
+### Prerequisites
+- Node.js installed on your machine.
 
-* Clone or download the repository.
-* Navigate to the project directory in your terminal.
-* Install the required dependencies using npm:
+### Installation
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/de-Padua/4chan-img-scraper.git
+    ```
 
-  ```bash
-  npm install axios cheerio
-  ```
+2. Navigate to the project directory:
+    ```bash
+    cd <project_directory>
+    ```
 
+3. Install dependencies:
+    ```bash
+    npm install
+    ```
 
 ## Usage
+1. Start the server:
+    ```bash
+    npm start
+    ```
+
+2. Access the server at `http://localhost:3000`.
 
 
-* Open the index.js file.
+3. Use the following routes:
 
-* Modify the url variable to the 4chan thread `URL` you want to scrape.
-
-* Adjust the folderName variable to set the name of the folder where the images will be saved.
-
-
-* Run the script using Node.js:
-```node
-node index.js
-``` 
-
-Once the script completes, check the specified folder to find the downloaded images.
-## FAQ
+    - `/`: Renders a basic HTML template.
+    - `/getData`: Accepts a JSON payload containing a URL and directory path, fetches HTML content from the URL, extracts image URLs, and downloads the images to the specified directory.
 
 
-### Q: Will this script download all formats of images?
+## WARNING
 
-A: Yes, the script is designed to download all image formats that are present in the specified 4chan thread. It extracts image URLs and downloads them regardless of their format.
+### Downloading Files to Nested Folders
+
+When downloading files, please ensure that the specified directory path exists. If you attempt to download files to a nested folder that doesn't exist, the program will encounter an error and may crash. To prevent this, make sure to create the necessary nested folders before initiating the download process.
+
+
+When using the `/getData` route to download files to nested folders, please be aware of the following:
+
+- The program will attempt to create the specified directory path if it doesn't exist.
+- However, if there are multiple nested folders within the specified path that do not exist, the program will encounter an error and may crash.
+
+For example:
+- If the specified directory path is `folder1/folder2/THIS_FOLDER_DOES_NOT_EXIST`, and `folder1` and `folder2` exist but `THIS_FOLDER_DOES_NOT_EXIST` does not, the program will create `THIS_FOLDER_DOES_NOT_EXIST` successfully.
+- However, if the specified directory path is `folder1/folder2/THIS_FOLDER_DOES_NOT_EXIST/THIS_ONE_DOES_NOT_EXIST_TOO`, and both `folder1` and `folder2` exist, but `THIS_FOLDER_DOES_NOT_EXIST` and `THIS_ONE_DOES_NOT_EXIST_TOO` do not, the program will encounter an error and may crash.
+
+To avoid such errors, ensure that all nested folders within the specified directory path exist before initiating the download process. You can create missing folders manually or programmatically before making the request.
 
 
 
-### Q: How does the script handle existing files with the same name?
-A: To prevent overwriting existing files, each downloaded image is given a random filename. This ensures that previously downloaded images are not replaced by new ones with the same name.
 
-### Q: Can I customize the destination folder for downloaded images?
 
-A: Yes, you can modify the folderName variable in the script to specify the name of the folder where the images will be saved. By default, it's set to "BOWC", but you can change it to any desired folder name.
+## License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-### Q: Is there any error handling implemented in the script?
-
-A: Yes, error handling is implemented to handle various scenarios such as failed HTTP requests, network errors, or file writing errors. Any encountered errors will be logged to the console with detailed messages to assist in troubleshooting.
