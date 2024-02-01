@@ -1,29 +1,117 @@
 <!DOCTYPE html>
 <html lang="en">
+ 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= title %></title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .main-div {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #333;
+        }
+        a {
+            display: inline-block;
+            margin: 20px;
+            text-decoration: none;
+            color: dodgerblue;
+            font-size: 16px;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        form {
+            text-align: center;
+            
+        }
+        label {
+            display: block;
+            margin-bottom: 15px;
+            font-size: 16px;
+            color: #555;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 25px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+            font-size: 16px;
+        }
+        input:focus {
+            border-color: dodgerblue;
+            outline: none;
+        }
+        button {
+            background-color: dodgerblue;
+            color: #fff;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #007bff;
+        }
+    </style>
+
 </head>
 <body>
-    <h2>4chan scraper</h2>
+    <div class="main-div">
+        <h2>4chan scraper</h2>
+        <a href="https://github.com/de-Padua/4chan-img-scraper?tab=readme-ov-file" target="_blank">Read this guide to avoid errors</a>
     <form id="myForm">
         <label for="dataInput">URL:</label>
         <input type="text" id="dataInput" name="dataInput">
         <label for="dirInput">Directory path:</label>
         <input type="text" id="dirInput" name="dirInput">     
-     <button type="submit">Submit</button>
+       <button type="submit">Submit</button>
 
+
+       <p>Status: <span class="status">idle</span></p>
+    </div>
 </body>
 <script>
-
+  
+    const status = document.querySelector(".status")
     document.getElementById('myForm').addEventListener('submit', async function(event) {
         event.preventDefault();
-        
+        status.innerHTML = "loading.."
+        status.style = {color:"orange"}
+
         const formData = new FormData(this);
         const data = Object.fromEntries(formData.entries());
         
+
         try {
+            status.innerHTML = "downloading.."
+
             const response = await fetch('/getData', {
                 method: 'POST',
                 headers: {
@@ -31,13 +119,12 @@
                 },
                 body: JSON.stringify(data)
             });
-
-
-            console.log(data)
             
             if (response.ok) {
+
                 console.log('Data submitted successfully!');
-                console.log(data)
+                status.innerHTML = "download successfully "
+                status.style = {color:"green"}
                 // Handle success
             } else {
                 console.error('Failed to submit data');
@@ -45,6 +132,8 @@
             }
         } catch (error) {
             console.error('Error submitting data:', error);
+            status.innerHTML = error
+
             // Handle error
         }
     });

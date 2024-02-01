@@ -1,0 +1,22 @@
+[1mdiff --git a/index.js b/index.js[m
+[1mindex fd67a19..0da5606 100644[m
+[1m--- a/index.js[m
+[1m+++ b/index.js[m
+[36m@@ -42,7 +42,7 @@[m [mconst server = http.createServer((req, res) => {[m
+         const requestData = JSON.parse(body);[m
+ [m
+         const url = requestData.dataInput;[m
+[31m-        const path = `${requestData.dirInput}`;[m
+[32m+[m[32m        const path = `${requestData.dirInput}/`;[m
+  [m
+         console.log(path)[m
+         const pathExists = fs.existsSync(path);[m
+[36m@@ -84,7 +84,7 @@[m [mconst server = http.createServer((req, res) => {[m
+ [m
+               if (fs.existsSync(path)) {[m
+                 const fileStream = fs.createWriteStream([m
+[31m-                  destinationPath + "/" + [m
+[32m+[m[32m                  destinationPath +[m
+                     Math.floor(Math.random() * 23123120 + 12301239103) +[m
+                     "." +[m
+                     contentType.split("/")[1][m

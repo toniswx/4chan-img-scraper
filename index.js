@@ -6,10 +6,6 @@ const https = require("https");
 const http = require("http");
 const ejs = require("ejs");
 
-/*
-
-
-*/
 
 const template = fs.readFileSync("./views/index.ejs", "utf8");
 const compiledTemplate = ejs.compile(template);
@@ -24,14 +20,16 @@ const server = http.createServer((req, res) => {
 
       // Render the template with data
       const renderedTemplate = compiledTemplate({
-        title: "Hello EJS",
-        message: "Welcome to EJS with Node.js!",
+        title: "4-chan scraper ",
+        message: "Welcome to 3chan scraper",
       });
 
       // Send the rendered template as the response
       res.end(renderedTemplate);
+      break
     }
     case "/getData": {
+
       let body = "";
 
       req.on("data", (chunk) => {
@@ -42,9 +40,10 @@ const server = http.createServer((req, res) => {
         const requestData = JSON.parse(body);
 
         const url = requestData.dataInput;
-        const path = `${requestData.dirInput}`;
+        const path = `${requestData.dirInput}/`;
  
-        console.log(path)
+
+        
         const pathExists = fs.existsSync(path);
 
         if (!pathExists) fs.mkdirSync(path);
@@ -74,7 +73,8 @@ const server = http.createServer((req, res) => {
             });
           })
           .catch((error) => {
-            console.error("Error:", error);
+            res.writeHead(400).write(error)
+            res.end()
           });
 
         const download = (imageUrl, destinationPath) => {
@@ -84,7 +84,7 @@ const server = http.createServer((req, res) => {
 
               if (fs.existsSync(path)) {
                 const fileStream = fs.createWriteStream(
-                  destinationPath + "/" + 
+                  destinationPath +
                     Math.floor(Math.random() * 23123120 + 12301239103) +
                     "." +
                     contentType.split("/")[1]
@@ -97,7 +97,8 @@ const server = http.createServer((req, res) => {
               }
             })
             .on("error", (error) => {
-              console.error("Error downloading image:", error);
+              res.writeHead(400).write(error)
+              res.end()
             });
         };
       });

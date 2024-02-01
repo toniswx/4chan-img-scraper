@@ -1,0 +1,6 @@
+·main-div{
+    width: 100%;
+    height:vh;
+    background-color: red;
+    display: flex;
+}
