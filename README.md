@@ -21,7 +21,7 @@ Welcome to our project! This Node.js server allows users to fetch HTML content f
 ### Installation
 1. Clone the repository:
     ```bash
-    git clone [<repository_url>](https://github.com/de-Padua/4chan-img-scraper.git)
+    git clone https://github.com/de-Padua/4chan-img-scraper.git
     ```
 
 2. Navigate to the project directory:
