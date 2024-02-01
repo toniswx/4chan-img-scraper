@@ -26,9 +26,6 @@ Installation
   npm install axios cheerio
   ```
 
-  ```bash
-  npm install axios axios
-  ```
 
 ## Usage
 
